@@ -1,0 +1,9 @@
+{
+  "realm" : "demo",
+  "resource" : "spa-resource-server",
+  "auth-server-url" : "http://localhost:8080/auth",
+  "credentials": {
+    "secret": "[クライアントシークレット]"
+  },
+  "bearer-only" : true
+}
