@@ -1,5 +1,7 @@
 package com.example.keycloak.authenticator;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
@@ -11,13 +13,11 @@ import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.jboss.logging.Logger;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Scanner;
 
 /**
@@ -120,10 +120,11 @@ public class TwilioClient {
 		if (jsonString == null) return false;
 		logger.debugv("verifySMS JSON String: {0}", jsonString);
 		try {
-			JSONObject jsonObject = new JSONObject(jsonString);
-			return statusCode >= 200 && statusCode <= 299 && "approved".equals(jsonObject.getString("status"))
-					&& jsonObject.getBoolean("valid");
-		} catch (JSONException e) {
+			ObjectMapper objectMapper = new ObjectMapper();
+			JsonNode jsonNode = objectMapper.readTree(jsonString);
+			return statusCode >= 200 && statusCode <= 299
+					&& "approved".equals(jsonNode.get("status").asText()) && jsonNode.get("valid").asBoolean();
+		} catch (IOException e) {
 			logger.error(e);
 		} finally {
 			logger.debug("verifySMS end");
@@ -171,7 +172,7 @@ public class TwilioClient {
 	 */
 	private String getAuthString(String accountSid, String authToken) {
 		String credentials = accountSid + ":" + authToken;
-		return "Basic " + DatatypeConverter.printBase64Binary(credentials.getBytes(StandardCharsets.US_ASCII));
+		return "Basic " + Base64.getEncoder().encodeToString(credentials.getBytes(StandardCharsets.US_ASCII));
 	}
 
 	/*
@@ -193,7 +194,7 @@ public class TwilioClient {
 	 */
 	private String getContent(InputStream stream) {
 		if (stream != null) {
-			try (Scanner scanner = new Scanner(stream, "UTF-8").useDelimiter("\\A")) {
+			try (Scanner scanner = new Scanner(stream, StandardCharsets.UTF_8).useDelimiter("\\A")) {
 				if (scanner.hasNext()) {
 					return scanner.next();
 				}

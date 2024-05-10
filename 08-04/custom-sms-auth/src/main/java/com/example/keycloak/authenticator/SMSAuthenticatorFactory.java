@@ -1,11 +1,8 @@
 package com.example.keycloak.authenticator;
 
-import java.util.List;
-
 import org.keycloak.Config.Scope;
 import org.keycloak.authentication.Authenticator;
 import org.keycloak.authentication.AuthenticatorFactory;
-import org.keycloak.authentication.ConfigurableAuthenticatorFactory;
 import org.keycloak.models.AuthenticationExecutionModel;
 import org.keycloak.models.AuthenticationExecutionModel.Requirement;
 import org.keycloak.models.KeycloakSession;
@@ -13,10 +10,12 @@ import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.provider.ProviderConfigurationBuilder;
 
+import java.util.List;
+
 /**
  * Twilio SMS AuthenticatorFactory
  */
-public class SMSAuthenticatorFactory implements AuthenticatorFactory, ConfigurableAuthenticatorFactory {
+public class SMSAuthenticatorFactory implements AuthenticatorFactory {
 
 	/* シングルトンモデルのためのクラス */
 	private static final SMSAuthenticator SINGLETON = new SMSAuthenticator();
