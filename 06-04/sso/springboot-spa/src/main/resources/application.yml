@@ -1,0 +1,14 @@
+server:
+  port : 8280
+logging:
+  level:
+    org.springframework.security: debug
+spring:
+  application:
+    name: springboot-spa
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/demo
+          audiences: spa-resource-server
