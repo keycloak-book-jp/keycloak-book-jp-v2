@@ -1,0 +1,21 @@
+server:
+  port: 8180
+logging:
+  level:
+    org.springframework.security: debug
+spring:
+  application:
+    name: springboot-oidc
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: springboot-oidc
+            client-secret: XYBvdMq0vFyXhPgAwFmjD3XhMmXRIkUc
+            authorization-grant-type: authorization_code
+            scope: openid
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8080/realms/demo
+            user-name-attribute: preferred_username
