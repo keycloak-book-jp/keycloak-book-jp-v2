@@ -1,8 +1,0 @@
-{
-  "realm" : "demo",
-  "resource" : "spa-client-oidc",
-  "auth-server-url" : "http://localhost:8080/auth",
-  "ssl-required" : "none",
-  "public-client" : "true"
-}
-

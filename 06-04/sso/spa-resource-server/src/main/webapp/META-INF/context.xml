@@ -1,3 +1,0 @@
-<Context path="/spa-resource-server">
-    <Valve className="org.keycloak.adapters.tomcat.KeycloakAuthenticatorValve"/>
-</Context>
