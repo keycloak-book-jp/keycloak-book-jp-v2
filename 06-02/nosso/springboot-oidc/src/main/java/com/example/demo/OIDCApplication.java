@@ -29,12 +29,6 @@ public class OIDCApplication {
 	}
 
 	private String response() {
-
-		StringBuffer response = new StringBuffer();
-		response.append("access by ");
-		response.append("anonymous");
-
-		return response.toString();
-
+		return "access by anonymous";
 	}
 }

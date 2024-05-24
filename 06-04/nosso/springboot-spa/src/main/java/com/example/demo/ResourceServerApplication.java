@@ -3,7 +3,9 @@ package com.example.demo;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @RestController
@@ -16,7 +18,7 @@ public class ResourceServerApplication {
 	@RequestMapping(value = "/spa-resource-server/user", method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 	public String user(HttpServletRequest httpRequest) {
 
-		StringBuffer response = new StringBuffer();
+		StringBuilder response = new StringBuilder();
 		response.append("{");
 		response.append("  \"method\" : \"" + httpRequest.getMethod() + "\", ");
 		response.append("  \"userId\" : \"anonymous\" ");

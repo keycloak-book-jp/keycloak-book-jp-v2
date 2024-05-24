@@ -18,7 +18,7 @@ public class ResourceServerApplication {
 	public String user(HttpServletRequest httpRequest, JwtAuthenticationToken jwt) {
 		String sub = jwt.getToken().getClaim("sub");
 
-		StringBuffer response = new StringBuffer();
+		StringBuilder response = new StringBuilder();
 		response.append("{");
 		response.append("  \"method\" : \"" + httpRequest.getMethod() + "\", ");
 		response.append("  \"userId\" : \"" + sub + "\" ");

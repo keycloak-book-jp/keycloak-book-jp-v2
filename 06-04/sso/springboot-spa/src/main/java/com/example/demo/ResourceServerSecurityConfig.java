@@ -20,7 +20,7 @@ public class ResourceServerSecurityConfig {
                         // SPA アプリ側はすべて許可（JavaScriptアダプターで認証がチェックされる）
                         .anyRequest().permitAll()
                 )
-                .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()));;
+                .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()));
         return http.build();
     }
 

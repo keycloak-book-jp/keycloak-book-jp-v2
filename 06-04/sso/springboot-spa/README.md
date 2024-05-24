@@ -17,4 +17,4 @@ $KEYCLOAK_HOME/bin/kc.sh start-dev
 |-----------|------------|------------|
 | 認証必須     | http://localhost:8280/spa-client-app/index.html        | user001/password         |
 | Bearer認証必須     | http://localhost:8280/spa-resource-server/user        | XHR からの Bearerトークン         |
-
+| Keycloak管理コンソール | http://localhost:8080/admin/master/console/        | admin/admin         |

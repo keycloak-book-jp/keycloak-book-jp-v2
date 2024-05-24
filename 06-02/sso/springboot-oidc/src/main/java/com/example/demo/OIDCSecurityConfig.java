@@ -54,7 +54,7 @@ public class OIDCSecurityConfig {
                     OidcIdToken idToken = oidcUserAuthority.getIdToken();
 
                     // IDトークンに設定された realm_access.roles を GrantedAuthority にマッピング（ROLE_ という接頭辞が必要）
-                    Map realmAccess = idToken.getClaimAsMap("realm_access");
+                    Map<String, Object> realmAccess = idToken.getClaimAsMap("realm_access");
                     if (realmAccess != null) {
                         List roles = (List) realmAccess.get("roles");
 

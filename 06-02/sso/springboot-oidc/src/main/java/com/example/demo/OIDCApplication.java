@@ -32,7 +32,7 @@ public class OIDCApplication {
 
 	private String response(Authentication authentication) {
 
-		StringBuffer response = new StringBuffer();
+		StringBuilder response = new StringBuilder();
 		response.append("access by ");
 
 		if (authentication != null) {
