@@ -6,6 +6,7 @@ import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -253,13 +254,13 @@ public class ClientAppService {
     // Info: This print method is used to remove unnecessary information (e.g. type) instead of JsonUtil.marshal(req)
     private void printRequest(String requestType, RequestEntity<?> req) {
         Map<String, Object> message = new HashMap<>();
-        message.put("method", req.getMethod());
+        message.put("method", Objects.requireNonNull(req.getMethod()).name());
         message.put("url", req.getUrl());
         message.put("headers", req.getHeaders());
         if (req.hasBody()) {
             message.put("body", req.getBody());
         }
-        logger.debug("RequestType=\"" + requestType + "\" RequestInfo=" + JsonUtil.marshal(message, false));
+        logger.debug("RequestType=\"{}\" RequestInfo={}", requestType, JsonUtil.marshal(message, false));
     }
 
     // Info: This print method is used to remove unnecessary information (e.g. type) instead of JsonUtil.marshal(resp)
@@ -268,7 +269,7 @@ public class ClientAppService {
         message.put("status", resp.getStatusCode());
         message.put("headers", resp.getHeaders());
         message.put("body", resp.getBody());
-        logger.debug("ResponseType=\"" + responseType + "\" ResponseInfo=" + JsonUtil.marshal(message, false));
+        logger.debug("ResponseType=\"{}\" ResponseInfo={}", responseType, JsonUtil.marshal(message, false));
     }
 
     private void printClientError(String errorType, HttpStatusCodeException e) {
@@ -276,6 +277,6 @@ public class ClientAppService {
         message.put("status", e.getStatusCode().toString());
         message.put("headers", e.getResponseHeaders());
         message.put("body", e.getResponseBodyAsString());
-        logger.error("ErrorType=\"" + errorType + "\" ResponseInfo=" + JsonUtil.marshal(message, false));
+        logger.error("ErrorType=\"{}\" ResponseInfo={}", errorType, JsonUtil.marshal(message, false));
     }
 }

@@ -75,7 +75,7 @@ public class SslConfiguration {
                     .loadKeyMaterial(keyStore.getURL(), keyStorePassword.toCharArray(), keyPassword.toCharArray())
                     .loadTrustMaterial(trustStore.getURL(), trustStorePassword.toCharArray(), null).build();
             HttpClient httpClient = HttpClients.custom().setSSLContext(sslContext).build();
-            return builder.requestFactory(() -> new HttpComponentsClientHttpRequestFactory(httpClient)).build();
+            return builder.requestFactory(() -> new HttpComponentsClientHttpRequestFactory()).build();
         }
     }
 }

@@ -13,8 +13,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -45,23 +43,23 @@ public class ResourceServerController {
     @Autowired
     RestTemplate restTemplate;
 
-    private void printRequest(String requestType, RequestEntity<?> req) {
+    private void printRequest(RequestEntity<?> req) {
         Map<String, Object> message = new HashMap<>();
-        message.put("method", req.getMethod());
+        message.put("method", Objects.requireNonNull(req.getMethod()).name());
         message.put("url", req.getUrl());
         message.put("headers", req.getHeaders());
         if (req.hasBody()) {
             message.put("body", req.getBody());
         }
-        logger.debug("RequestType=\"" + requestType + "\" RequestInfo=" + writeJsonString(message, false));
+        logger.debug("RequestType=\"{}\" RequestInfo={}", "Introspection Request", writeJsonString(message, false));
     }
 
-    private void printResponse(String responseType, ResponseEntity<?> resp) {
+    private void printResponse(ResponseEntity<?> resp) {
         Map<String, Object> message = new HashMap<>();
         message.put("status", resp.getStatusCode());
         message.put("headers", resp.getHeaders());
         message.put("body", resp.getBody());
-        logger.debug("ResponseType=\"" + responseType + "\" ResponseInfo=" + writeJsonString(message, false));
+        logger.debug("ResponseType=\"{}\" ResponseInfo={}", "Introspection Response", writeJsonString(message, false));
     }
 
     private boolean requestTokenIntrospection(String accessToken) {
@@ -76,15 +74,15 @@ public class ResourceServerController {
         params.add("token", accessToken);
 
         RequestEntity<?> req = new RequestEntity<>(params, headers, HttpMethod.POST, URI.create(serverConfig.getAuthserverUrl() + serverConfig.getIntrospectionEndpoint()));
-        printRequest("Introspection Request", req);
+        printRequest(req);
 
         try {
             ResponseEntity<IntrospectionResponse> res = restTemplate.exchange(req, IntrospectionResponse.class);
-            printResponse("Introspection Response", res);
+            printResponse(res);
             IntrospectionResponse resBody = res.getBody();
             result = resBody != null && Objects.equals(resBody.getActive(), "true");
         } catch (HttpClientErrorException e) {
-            logger.error("response code=\"" + e.getStatusCode() + "\" body=" + e.getResponseBodyAsString());
+            logger.error("response code=\"{}\" body={}", e.getStatusCode(), e.getResponseBodyAsString());
         }
 
         return result;
@@ -113,7 +111,7 @@ public class ResourceServerController {
 
         if (requestTokenIntrospection(accessToken)) {
             AccessToken token = OauthUtil.readJsonContent(OauthUtil.decodeFromBase64Url(accessToken), AccessToken.class);
-            logger.debug("Scope of Token: \"" + token.getScope() + "\"");
+            logger.debug("Scope of Token: \"{}\"", token.getScope());
             if (token.getScopeList().contains("readdata")) {
 
                 return new ResponseEntity<>(Collections.singletonMap("message",
@@ -136,11 +134,5 @@ public class ResourceServerController {
             logger.error("unable to deserialize", e);
         }
         return "";
-    }
-
-    @Bean
-    public RestTemplate restTemplate() {
-        RestTemplateBuilder RestTemplateBuilder = new RestTemplateBuilder();
-        return RestTemplateBuilder.build();
     }
 }

@@ -3,13 +3,13 @@ package sample.clientapp.jwt;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import sample.clientapp.util.Base64url;
 import sample.clientapp.util.JsonUtil;
 
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class JsonWebToken {
     private String iss;
     private String sub;
@@ -83,7 +83,7 @@ public class JsonWebToken {
         this.tokenString = tokenString;
     }
 
-    @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
     public static class Header {
         private String kid;
         private String alg;

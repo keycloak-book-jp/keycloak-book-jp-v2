@@ -28,6 +28,7 @@ public class OauthUtil {
             e.printStackTrace();
         }
         try {
+            assert md != null;
             md.update(codeVerifier.getBytes("ISO_8859_1"));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
