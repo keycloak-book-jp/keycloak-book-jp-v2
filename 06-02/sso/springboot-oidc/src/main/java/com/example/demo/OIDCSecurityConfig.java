@@ -26,8 +26,8 @@ public class OIDCSecurityConfig {
         http.
                 // パスごとの認可条件設定
                 authorizeHttpRequests(authorize -> authorize
-                        // 認証が必須
-                        .requestMatchers("/user-area").authenticated()
+                        // 認証に加え user ロールが必須
+                        .requestMatchers("/user-area").hasRole("user")
                         // 認証に加え admin ロールが必須
                         .requestMatchers("/admin-area").hasRole("admin")
                         // 認証不要
