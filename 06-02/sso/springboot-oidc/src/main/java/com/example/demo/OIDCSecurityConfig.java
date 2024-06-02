@@ -24,7 +24,7 @@ public class OIDCSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.
-                // パスごとの認可条件設定
+                // ①パスごとの認可条件設定
                 authorizeHttpRequests(authorize -> authorize
                         // 認証に加え user ロールが必須
                         .requestMatchers("/user-area").hasRole("user")
@@ -32,11 +32,11 @@ public class OIDCSecurityConfig {
                         .requestMatchers("/admin-area").hasRole("admin")
                         // 認証不要
                         .requestMatchers("/anonymous-area").permitAll())
-                // ロールによる認可制御を利用する場合に必要
+                // ②ロールによる認可制御を利用する場合に必要
                 .oauth2Login(oauth2 -> oauth2
                         .userInfoEndpoint(userInfo -> userInfo
                                 .userAuthoritiesMapper(this.userAuthoritiesMapper())))
-                // バックチャネルログアウトを利用する場合に必要
+                // ③バックチャネルログアウトを利用する場合に必要
                 .oidcLogout((logout) -> logout
                         .backChannel(Customizer.withDefaults()));
 
