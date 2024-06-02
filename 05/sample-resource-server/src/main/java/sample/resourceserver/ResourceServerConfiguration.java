@@ -1,7 +1,10 @@
 package sample.resourceserver;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 @Component
 @ConfigurationProperties(prefix = "resourceserver.config")
@@ -41,5 +44,11 @@ public class ResourceServerConfiguration {
 
     public void setClientSecret(String clientSecret) {
         this.clientSecret = clientSecret;
+    }
+
+    @Bean
+    public RestTemplate restTemplate() {
+        RestTemplateBuilder RestTemplateBuilder = new RestTemplateBuilder();
+        return RestTemplateBuilder.build();
     }
 }
