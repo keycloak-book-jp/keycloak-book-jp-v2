@@ -190,7 +190,7 @@ public class ClientAppService {
             printResponse("Refresh Response", res);
         } catch (HttpStatusCodeException e) {
             printClientError("Refresh Response", e);
-            return TokenResponse.withError(e.getMessage(), e.getResponseBodyAsString());
+            return TokenResponse.withError(e.getStatusCode().toString(), e.getResponseBodyAsString());
         } catch (ResourceAccessException e) {
             return TokenResponse.withError(e.getMessage(), null);
         }
