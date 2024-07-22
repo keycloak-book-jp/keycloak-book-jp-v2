@@ -17,8 +17,8 @@ public class ResourceServerSecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         // リソースサーバーのパスは認証必須（Bearer認証）
                         .requestMatchers("/spa-resource-server/user").authenticated()
-                        // 上記以外のパスはすべて許可（JavaScriptアダプターで認証がチェックされる）
-                        .anyRequest().permitAll()
+                        // SPAのパス（/spa-client-app/*）はSpring Securityとしてはすべて許可（JavaScriptアダプターで認証がチェックされるため）
+                        .requestMatchers("/spa-client-app/**").permitAll()
                 )
                 .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()));
         return http.build();

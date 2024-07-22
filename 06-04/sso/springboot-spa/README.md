@@ -1,7 +1,7 @@
 ### 起動手順
 
 ```
-# レルムデータのインポート
+# レルムのインポート
 $KEYCLOAK_HOME/bin/kc.sh import --file demo-realm.json
 
 # Keycloak の起動
