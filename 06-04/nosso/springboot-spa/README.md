@@ -1,8 +1,15 @@
 ### 起動手順
 
+- Linuxの場合
 ```
 # Spring Boot の起動
-./gradlew clean build bootRun
+./mvnw clean spring-boot:run
+```
+
+- Windows PowerShellの場合
+```
+# Spring Boot の起動
+.\mvnw.cmd clean spring-boot:run
 ```
 
 ### アクセスURL

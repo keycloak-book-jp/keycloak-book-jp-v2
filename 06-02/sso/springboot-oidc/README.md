@@ -1,16 +1,28 @@
 ### 起動手順
 
+- Linuxの場合
 ```
 # レルムのインポート
-$KEYCLOAK_HOME/bin/kc.sh import --file demo-realm.json
+[KEYCLOAK_HOME]/bin/kc.sh import --file demo-realm.json
 
 # Keycloak の起動
-$KEYCLOAK_HOME/bin/kc.sh start-dev
+[KEYCLOAK_HOME]/bin/kc.sh start-dev
 
 # Spring Boot の起動（別コンソール）
-./gradlew clean build bootRun
+./mvnw clean spring-boot:run
 ```
 
+- Windows PowerShellの場合
+```
+# レルムのインポート
+[KEYCLOAK_HOME]\bin\kc.bat import --file demo-realm.json
+
+# Keycloak の起動
+[KEYCLOAK_HOME]\bin\kc.bat start-dev
+
+# Spring Boot の起動（別コンソール）
+.\mvnw.cmd clean spring-boot:run
+```
 
 
 ### アクセスURL
