@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -8,9 +9,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
+import org.springframework.security.oauth2.client.oidc.web.logout.OidcClientInitiatedLogoutSuccessHandler;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 import java.util.HashSet;
 import java.util.List;
@@ -20,6 +24,9 @@ import java.util.Set;
 @Configuration
 @EnableWebSecurity
 public class OIDCSecurityConfig {
+
+    @Autowired
+    private ClientRegistrationRepository clientRegistrationRepository;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -38,7 +45,11 @@ public class OIDCSecurityConfig {
                                 .userAuthoritiesMapper(this.userAuthoritiesMapper())))
                 // ③バックチャネルログアウトを利用する場合に必要
                 .oidcLogout((logout) -> logout
-                        .backChannel(Customizer.withDefaults()));
+                        .backChannel(Customizer.withDefaults()))
+                // ④RP起点ログアウトを利用する場合に必要
+                .logout(logout -> logout
+                        .logoutSuccessHandler(oidcLogoutSuccessHandler())
+                );
 
         return http.build();
     }
@@ -70,4 +81,13 @@ public class OIDCSecurityConfig {
         };
     }
 
+    private LogoutSuccessHandler oidcLogoutSuccessHandler() {
+        OidcClientInitiatedLogoutSuccessHandler oidcLogoutSuccessHandler =
+                new OidcClientInitiatedLogoutSuccessHandler(this.clientRegistrationRepository);
+
+        // ログアウト成功後の遷移先URLの指定
+        oidcLogoutSuccessHandler.setPostLogoutRedirectUri("{baseUrl}/user-area");
+
+        return oidcLogoutSuccessHandler;
+    }
 }
