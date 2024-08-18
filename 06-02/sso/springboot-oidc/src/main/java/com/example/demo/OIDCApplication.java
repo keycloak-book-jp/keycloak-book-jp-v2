@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.core.Authentication;
@@ -16,23 +17,28 @@ public class OIDCApplication {
 	}
 
 	@GetMapping("/user-area")
-	public String user(Authentication authentication) {
-		return response(authentication);
+	public String user(HttpServletRequest httpRequest, Authentication authentication) {
+		return response(httpRequest, authentication);
 	}
 
 	@GetMapping("/admin-area")
-	public String admin(Authentication authentication) {
-		return response(authentication);
+	public String admin(HttpServletRequest httpRequest, Authentication authentication) {
+		return response(httpRequest, authentication);
 	}
 
 	@GetMapping("/anonymous-area")
-	public String anonymous(Authentication authentication) {
-		return response(authentication);
+	public String anonymous(HttpServletRequest httpRequest, Authentication authentication) {
+		return response(httpRequest, authentication);
 	}
 
-	private String response(Authentication authentication) {
+	private String response(HttpServletRequest httpRequest, Authentication authentication) {
 
 		StringBuilder response = new StringBuilder();
+		response.append("<h3>");
+		response.append(httpRequest.getMethod());
+		response.append(" ");
+		response.append(httpRequest.getRequestURI());
+		response.append("</h3>");
 		response.append("access by ");
 
 		if (authentication != null) {
