@@ -1,11 +1,13 @@
 Twilio SMS Authenticator for Keycloak
 ==================
 
-Keycloak（WildFly）へのデプロイ
+Keycloakへのデプロイ
 ---------------------
 
-1. Keycloakが起動していることを確認します。
+1. Keycloakが停止していることを確認します。
 
-2. オーセンティケーターをデプロイします。
+2. テーマとオーセンティケーターを下記ディレクトリにデプロイします。
+        [KEYCLOAK_HOME]/providers
 
-        mvn wildfly:deploy
+3. Keycloakを起動します。
+        
