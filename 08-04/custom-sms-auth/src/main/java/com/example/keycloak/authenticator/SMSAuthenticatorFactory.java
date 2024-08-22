@@ -33,32 +33,32 @@ public class SMSAuthenticatorFactory implements AuthenticatorFactory {
 	private static final List<ProviderConfigProperty> configProperties;
 	static {
 		configProperties = ProviderConfigurationBuilder
-				// SERVICE SID
+				// Service SID
 				.create()
 				.property()
 				.name(SMSAuthenticator.CONFIG_SMS_SERVICE_SID)
-				.label("SERVICE SID")
+				.label("Service SID")
 				.type(ProviderConfigProperty.STRING_TYPE)
 				.defaultValue("")
-				.helpText("Set the SERVICE SID to connect to Twilio. It usually starts with 'VA'.")
+				.helpText("Set the Service SID to connect to Twilio. It usually starts with 'VA'.")
 				.add()
 
-				// ACCOUNT SID
+				// Account SID
 				.property()
 				.name(SMSAuthenticator.CONFIG_SMS_ACCOUNT_SID)
-				.label("ACCOUNT SID")
+				.label("Account SID")
 				.type(ProviderConfigProperty.STRING_TYPE)
 				.defaultValue("")
-				.helpText("Set the ACCOUNT SID to connect to Twilio. It usually starts with 'SK'.")
+				.helpText("Set the Account SID to connect to Twilio. It usually starts with 'SK'.")
 				.add()
 
-				// AUTH TOKEN
+				// Auth Token
 				.property()
 				.name(SMSAuthenticator.CONFIG_SMS_AUTH_TOKEN)
-				.label("AUTH TOKEN")
+				.label("Auth Token")
 				.type(ProviderConfigProperty.STRING_TYPE)
 				.defaultValue("")
-				.helpText("Set the AUTH TOKEN to connect to Twilio.")
+				.helpText("Set the Auth Token to connect to Twilio.")
 				.add()
 
 				.build();

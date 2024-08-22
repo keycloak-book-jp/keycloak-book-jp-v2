@@ -4,8 +4,9 @@ Twilio SMS Authenticator for Keycloak
 Deploying to Keycloak (WildFly)
 ---------------------
 
-1. Make sure your Keycloak server is running.
+1. Make sure your Keycloak server is stopped.
 
-2. Deploy this authenticator to the server.
+2. Deploy the theme and authenticator to the following directory.
+        [KEYCLOAK_HOME]/providers
 
-        mvn wildfly:deploy
+3. Start Keycloak.
