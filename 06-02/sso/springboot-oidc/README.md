@@ -24,27 +24,6 @@
 .\mvnw.cmd clean spring-boot:run
 ```
 
-### Spring Security のバックチャネルログアウト不具合のワークアラウンド対応
-※ これはspring-securityのバグが修正された 6.4.0-SNAPSHOT を使って、6.6節のバックチャネルログアウトの動作を確認するための手順です。
-
-```
-pushd .
-cd /tmp
-
-# spring-security の main ブランチ(6.4.0-SNAPSHOT)をclone
-git clone https://github.com/spring-projects/spring-security.git
-cd spring-security
-
-# 最新版のライブラリ(6.4.0-SNAPSHOT)をビルドし、Maven Localレポジトリにコピー
-./gradlew publishToMavenLocal
-
-popd
-
-# spring-security の最新版(6.4.0-SNAPSHOT)で、Spring Boot の起動（別コンソール）
-./mvnw -f pom_workaround.xml clean spring-boot:run
-```
-
-
 ### アクセスURL
 
 | 用途              | URL                                                                                                                                                           | ID/PW |
