@@ -6,13 +6,13 @@
   <script src="keycloak.js"></script>
   <script>
     // JavaScriptアダプターの初期化（keycloak.jsonが利用される）
-    var keycloak = new Keycloak();
+    const keycloak = new Keycloak();
 
     function initKeycloak() {
       // （B）未認証時に認証を要求する設定
       keycloak.init({
-        onLoad: 'login-required',
-        pkceMethod: 'S256'
+        onLoad: "login-required",
+        pkceMethod: "S256"
       }).then(function(authenticated) {
         // 認証済みなら、IDトークンの username と email を画面に表示する
         if (authenticated) {
@@ -20,7 +20,7 @@
           document.getElementById("email").innerHTML = keycloak.idTokenParsed.email;
         }
       }).catch(function() {
-        alert('failed to initialize');
+        alert("failed to initialize");
       });
     }
 
@@ -31,16 +31,16 @@
         // 実際の API の呼び出し
         callAPI(reqMethod);
       }).catch(function() {
-        alert('Failed to refresh token');
+        alert("Failed to refresh token");
       });
     }
 
     async function callAPI(reqMethod) {
-      var url = 'http://localhost:8280/spa-resource-server/user';
+      const url = "http://localhost:8280/spa-resource-server/user";
       const reqHeaders = new Headers();
       reqHeaders.append("Content-Type", "application/json");
       // （D）アクセストークンをAuthorizationヘッダーにBearerスキームで付与する設定
-      reqHeaders.append('Authorization', 'Bearer ' + keycloak.token);
+      reqHeaders.append("Authorization", `Bearer ${keycloak.token}`);
       try {
         const response = await fetch(url, {
           method: reqMethod,
