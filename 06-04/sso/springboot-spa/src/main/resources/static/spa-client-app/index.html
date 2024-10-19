@@ -2,27 +2,30 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <title>SPA Main Page</title>
-  <!-- （A）JavaScriptアダプターを読み込む設定 -->
-  <script src="keycloak.js"></script>
-  <script>
-    // JavaScriptアダプターの初期化（keycloak.jsonが利用される）
-    const keycloak = new Keycloak();
+  <script type="module">
+    // （A）JavaScriptアダプターを読み込む
+    import Keycloak from "./keycloak.js";
 
-    function initKeycloak() {
-      // （B）未認証時に認証を要求する設定
-      keycloak.init({
-        onLoad: "login-required",
-        pkceMethod: "S256"
-      }).then(function(authenticated) {
-        // 認証済みなら、IDトークンの username と email を画面に表示する
-        if (authenticated) {
-          document.getElementById("username").innerHTML = keycloak.idTokenParsed.preferred_username;
-          document.getElementById("email").innerHTML = keycloak.idTokenParsed.email;
-        }
-      }).catch(function() {
-        alert("failed to initialize");
-      });
-    }
+    // JavaScriptアダプターの初期化
+    const keycloak = new Keycloak({
+      url: "http://localhost:8080",
+      realm: "demo",
+      clientId: "spa-client-oidc"
+    });
+
+    // （B）未認証時に認証を要求する設定
+    keycloak.init({
+      onLoad: "login-required",
+      pkceMethod: "S256"
+    }).then(function(authenticated) {
+      // 認証済みなら、IDトークンの username と email を画面に表示する
+      if (authenticated) {
+        document.getElementById("username").innerHTML = keycloak.idTokenParsed.preferred_username;
+        document.getElementById("email").innerHTML = keycloak.idTokenParsed.email;
+      }
+    }).catch(function() {
+      alert("failed to initialize");
+    });
 
     function accessResource(reqMethod) {
       // （C）API のコール前にトークンの有効期限を確認する設定
@@ -56,27 +59,62 @@
         console.error(error.message);
       }
     }
+
+    // JavaScriptアダプターの各種プロパティ表示をクリックイベントに追加
+    document.getElementById("displayAuthenticated").addEventListener("click", function(event) {
+      alert(keycloak.authenticated);
+    });
+    document.getElementById("displaySubject").addEventListener("click", function(event) {
+      alert(keycloak.subject);
+    });
+    document.getElementById("displayToken").addEventListener("click", function(event) {
+      alert(JSON.stringify(keycloak.tokenParsed, null, 2));
+    });
+    document.getElementById("displayIdToken").addEventListener("click", function(event) {
+      alert(JSON.stringify(keycloak.idTokenParsed, null, 2));
+    });
+    document.getElementById("displayRefreshToken").addEventListener("click", function(event) {
+      alert(JSON.stringify(keycloak.refreshTokenParsed, null, 2));
+    });
+    document.getElementById("logout").addEventListener("click", function(event) {
+      keycloak.logout();
+    });
+
+    // リソースサーバーへの各種メソッドアクセスをクリックイベントに追加
+    document.getElementById("getResource").addEventListener("click", function(event) {
+      accessResource("GET");
+    });
+    document.getElementById("postResource").addEventListener("click", function(event) {
+      accessResource("POST");
+    });
+    document.getElementById("putResource").addEventListener("click", function(event) {
+      accessResource("PUT");
+    });
+    document.getElementById("deleteResource").addEventListener("click", function(event) {
+      accessResource("DELETE");
+    });
+
   </script>
 </head>
-<body onload="initKeycloak()">
+<body>
 <h1>SPA Main Page</h1>
 username: <label id="username"></label><br>
 email: <label id="email"></label>
 <h3>JavaScript Adapter Function</h3>
 <ul>
-  <li><a href="javascript: alert(keycloak.authenticated);">Display "keycloak.authenticated"</a>
-  <li><a href="javascript: alert(keycloak.subject);">Display "keycloak.subject"</a>
-  <li><a href="javascript: alert(JSON.stringify(keycloak.tokenParsed, null, 2));">Display "keycloak.tokenParsed"</a>
-  <li><a href="javascript: alert(JSON.stringify(keycloak.idTokenParsed, null, 2));">Display "keycloak.idTokenParsed"</a>
-  <li><a href="javascript: alert(JSON.stringify(keycloak.refreshTokenParsed, null, 2));">Display "keycloak.refreshTokenParsed"</a>
-  <li><a href="javascript: keycloak.logout();">Logout(call "keycloak.logout()")</a>
+  <li><input type="button" id="displayAuthenticated" value="Display 'keycloak.authenticated'" />
+  <li><input type="button" id="displaySubject" value="Display 'keycloak.subject'" />
+  <li><input type="button" id="displayToken" value="Display 'keycloak.tokenParsed'" />
+  <li><input type="button" id="displayIdToken" value="Display 'keycloak.idTokenParsed'" />
+  <li><input type="button" id="displayRefreshToken" value="Display 'keycloak.refreshTokenParsed'" />
+  <li><input type="button" id="logout" value="Logout(call 'keycloak.logout()'" />
 </ul>
 <h3>Resource Server Access</h3>
 <ul>
-  <li><a href="javascript: accessResource('GET');">Access resource by 'GET' method</a>
-  <li><a href="javascript: accessResource('POST');">Access resource by  'POST' method</a>
-  <li><a href="javascript: accessResource('PUT');">Access resource by 'PUT' method</a>
-  <li><a href="javascript: accessResource('DELETE');">Access resource by 'DELETE' method</a>
+  <li><input type="button" id="getResource" value="Access resource by 'GET' method" />
+  <li><input type="button" id="postResource" value="Access resource by  'POST' method" />
+  <li><input type="button" id="putResource" value="Access resource by 'PUT' method" />
+  <li><input type="button" id="deleteResource" value="Access resource by 'DELETE' method" />
 </ul>
 </body>
 </html>

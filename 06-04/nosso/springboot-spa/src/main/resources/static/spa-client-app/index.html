@@ -2,7 +2,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <title>SPA Main Page</title>
-  <script>
+  <script type="module">
     function accessResource(reqMethod) {
       // API の呼び出し
       callAPI(reqMethod);
@@ -27,16 +27,31 @@
         console.error(error.message);
       }
     }
+
+    // リソースサーバーへの各種メソッドアクセスをクリックイベントに追加
+    document.getElementById("getResource").addEventListener("click", function(event) {
+      accessResource("GET");
+    });
+    document.getElementById("postResource").addEventListener("click", function(event) {
+      accessResource("POST");
+    });
+    document.getElementById("putResource").addEventListener("click", function(event) {
+      accessResource("PUT");
+    });
+    document.getElementById("deleteResource").addEventListener("click", function(event) {
+      accessResource("DELETE");
+    });
+
   </script>
 </head>
 <body>
 <h1>SPA Main Page</h1>
 <h3>Resource Server Access</h3>
 <ul>
-  <li><a href="javascript: accessResource('GET');">Access resource by 'GET' method</a>
-  <li><a href="javascript: accessResource('POST');">Access resource by  'POST' method</a>
-  <li><a href="javascript: accessResource('PUT');">Access resource by 'PUT' method</a>
-  <li><a href="javascript: accessResource('DELETE');">Access resource by 'DELETE' method</a>
+  <li><input type="button" id="getResource" value="Access resource by 'GET' method" />
+  <li><input type="button" id="postResource" value="Access resource by  'POST' method" />
+  <li><input type="button" id="putResource" value="Access resource by 'PUT' method" />
+  <li><input type="button" id="deleteResource" value="Access resource by 'DELETE' method" />
 </ul>
 </body>
 </html>
