@@ -29,6 +29,7 @@ public class JsonUtil {
 
     public static String marshal(Object obj, boolean indent) {
         ObjectMapper mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         mapper.configure(SerializationFeature.INDENT_OUTPUT, indent);
         try {
             return mapper.writeValueAsString(obj);
