@@ -17,7 +17,7 @@
     <properties>
         <project.source.version>21</project.source.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <version.keycloak>26.0.1</version.keycloak>
+        <version.keycloak>26.0.0</version.keycloak>
     </properties>
 
 </project>
