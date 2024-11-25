@@ -22,11 +22,11 @@ public class SMSAuthenticator implements Authenticator {
 	/** Twilio サービスSID */
 	public static final String CONFIG_SMS_SERVICE_SID = "verifySMS.service-sid";
 
-	/** Twilio アカウントSID */
-	public static final String CONFIG_SMS_ACCOUNT_SID = "verifySMS.account-sid";
+	/** Twilio APIキーSID */
+	public static final String CONFIG_SMS_API_KEY_SID = "verifySMS.api-key-sid";
 
-	/** Twilio API認証トークン */
-	public static final String CONFIG_SMS_AUTH_TOKEN = "verifySMS.auth-token";
+	/** Twilio シークレット */
+	public static final String CONFIG_SMS_SECRET = "verifySMS.secret";
 
 	private static final Logger logger = Logger.getLogger(SMSAuthenticator.class);
 
@@ -59,8 +59,8 @@ public class SMSAuthenticator implements Authenticator {
 		if (phoneNumber != null) {
 			TwilioClient twilioClient = new TwilioClient(
 					getConfigString(config, CONFIG_SMS_SERVICE_SID),
-					getConfigString(config, CONFIG_SMS_ACCOUNT_SID),
-					getConfigString(config, CONFIG_SMS_AUTH_TOKEN));
+					getConfigString(config, CONFIG_SMS_API_KEY_SID),
+					getConfigString(config, CONFIG_SMS_SECRET));
 			// 認証コード送信
 			if (twilioClient.sendSMS(phoneNumber)) {
 				// 認証コード入力画面を返却する
@@ -98,8 +98,8 @@ public class SMSAuthenticator implements Authenticator {
 		AuthenticatorConfigModel config = context.getAuthenticatorConfig();
 		TwilioClient twilioClient = new TwilioClient(
 				getConfigString(config, CONFIG_SMS_SERVICE_SID),
-				getConfigString(config, CONFIG_SMS_ACCOUNT_SID),
-				getConfigString(config, CONFIG_SMS_AUTH_TOKEN) );
+				getConfigString(config, CONFIG_SMS_API_KEY_SID),
+				getConfigString(config, CONFIG_SMS_SECRET) );
 		if (twilioClient.verifySMS(phoneNumber, enteredCode)) {
 			// 認証コードの確認に成功した場合は、認証成功とする
 			context.success();
