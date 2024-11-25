@@ -1,5 +1,7 @@
 package com.example.keycloak.authenticator;
 
+import java.util.List;
+
 import org.keycloak.Config.Scope;
 import org.keycloak.authentication.Authenticator;
 import org.keycloak.authentication.AuthenticatorFactory;
@@ -9,8 +11,6 @@ import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.provider.ProviderConfigurationBuilder;
-
-import java.util.List;
 
 /**
  * Twilio SMS AuthenticatorFactory
@@ -43,22 +43,22 @@ public class SMSAuthenticatorFactory implements AuthenticatorFactory {
 				.helpText("Set the Service SID to connect to Twilio. It usually starts with 'VA'.")
 				.add()
 
-				// Account SID
+				// API Key SID
 				.property()
-				.name(SMSAuthenticator.CONFIG_SMS_ACCOUNT_SID)
-				.label("Account SID")
+				.name(SMSAuthenticator.CONFIG_SMS_API_KEY_SID)
+				.label("API Key SID")
 				.type(ProviderConfigProperty.STRING_TYPE)
 				.defaultValue("")
-				.helpText("Set the Account SID to connect to Twilio. It usually starts with 'SK'.")
+				.helpText("Set the API Key SID to connect to Twilio. It usually starts with 'SK'.")
 				.add()
 
-				// Auth Token
+				// Secret
 				.property()
-				.name(SMSAuthenticator.CONFIG_SMS_AUTH_TOKEN)
-				.label("Auth Token")
+				.name(SMSAuthenticator.CONFIG_SMS_SECRET)
+				.label("Secret")
 				.type(ProviderConfigProperty.STRING_TYPE)
 				.defaultValue("")
-				.helpText("Set the Auth Token to connect to Twilio.")
+				.helpText("Set the Secret to connect to Twilio.")
 				.add()
 
 				.build();

@@ -41,18 +41,18 @@ public class TwilioClient {
 	private static final int SOCKET_TIMEOUT = 30500;
 	/* Twilio Service SID */
 	private final String serviceSid;
-	/* Twilio Account SID */
-	private final String accountSid;
-	/* Twilio Auth Token */
-	private final String authToken;
+	/* Twilio API Key SID */
+	private final String apiKeySid;
+	/* Twilio Secret */
+	private final String secret;
 
 	/*
 	 * コンストラクタ
 	 */
-	public TwilioClient(String serviceSid, String accountSid, String authToken) {
+	public TwilioClient(String serviceSid, String apiKeySid, String secret) {
 		this.serviceSid = serviceSid;
-		this.accountSid = accountSid;
-		this.authToken = authToken;
+		this.apiKeySid = apiKeySid;
+		this.secret = secret;
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class TwilioClient {
 			.setCharset(StandardCharsets.UTF_8);
 		param.addHeader(HttpHeaders.ACCEPT, "application/json");
 		param.addHeader(HttpHeaders.ACCEPT_ENCODING, "utf-8");
-		param.addHeader(HttpHeaders.AUTHORIZATION, getAuthString(accountSid, authToken));
+		param.addHeader(HttpHeaders.AUTHORIZATION, getAuthString(apiKeySid, secret));
 		param.addHeader(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded");
 		param.addParameter("To", COUNTRY_CODE + telNum);
 		param.addParameter("Channel", "sms");
@@ -107,7 +107,7 @@ public class TwilioClient {
 				.setCharset(StandardCharsets.UTF_8);
 		param.addHeader(HttpHeaders.ACCEPT, "application/json");
 		param.addHeader(HttpHeaders.ACCEPT_ENCODING, "utf-8");
-		param.addHeader(HttpHeaders.AUTHORIZATION, getAuthString(accountSid, authToken));
+		param.addHeader(HttpHeaders.AUTHORIZATION, getAuthString(apiKeySid, secret));
 		param.addHeader(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded");
 		param.addParameter("To", COUNTRY_CODE + telNum);
 		param.addParameter("Code", code);
@@ -170,8 +170,8 @@ public class TwilioClient {
 	/*
 	 * エンコードした認証情報を返す
 	 */
-	private String getAuthString(String accountSid, String authToken) {
-		String credentials = accountSid + ":" + authToken;
+	private String getAuthString(String apiKeySid, String secret) {
+		String credentials = apiKeySid + ":" + secret;
 		return "Basic " + Base64.getEncoder().encodeToString(credentials.getBytes(StandardCharsets.US_ASCII));
 	}
 
