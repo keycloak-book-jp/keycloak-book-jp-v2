@@ -33,9 +33,9 @@ public class OIDCSecurityConfig {
         http.
                 // ①パスごとの認可条件設定
                 authorizeHttpRequests(authorize -> authorize
-                        // 認証に加え user ロールが必須
+                        // 認証に加えuserロールが必須
                         .requestMatchers("/user-area").hasRole("user")
-                        // 認証に加え admin ロールが必須
+                        // 認証に加えadminロールが必須
                         .requestMatchers("/admin-area").hasRole("admin")
                         // 認証不要
                         .requestMatchers("/anonymous-area").permitAll())
@@ -64,7 +64,7 @@ public class OIDCSecurityConfig {
 
                     OidcIdToken idToken = oidcUserAuthority.getIdToken();
 
-                    // IDトークンに設定された realm_access.roles を GrantedAuthority にマッピング（ROLE_ という接頭辞が必要）
+                    // IDトークンに設定されたrealm_access.rolesをGrantedAuthorityにマッピング（ROLE_という接頭辞が必要）
                     Map<String, Object> realmAccess = idToken.getClaimAsMap("realm_access");
                     if (realmAccess != null) {
                         List roles = (List) realmAccess.get("roles");

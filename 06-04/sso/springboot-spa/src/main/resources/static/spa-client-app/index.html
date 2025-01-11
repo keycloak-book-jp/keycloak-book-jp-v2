@@ -18,7 +18,7 @@
       onLoad: "login-required",
       pkceMethod: "S256"
     }).then(function(authenticated) {
-      // 認証済みなら、IDトークンの username と email を画面に表示する
+      // 認証済みなら、IDトークンのusernameとemailを画面に表示する
       if (authenticated) {
         document.getElementById("username").innerHTML = keycloak.idTokenParsed.preferred_username;
         document.getElementById("email").innerHTML = keycloak.idTokenParsed.email;
@@ -28,10 +28,10 @@
     });
 
     function accessResource(reqMethod) {
-      // （C）API のコール前にトークンの有効期限を確認する設定
+      // （C）APIのコール前にトークンの有効期限を確認する設定
       // このコードでは、トークンの有効期限の30秒前になると、トークンリフレッシュを行う
       keycloak.updateToken(30).then(function() {
-        // 実際の API の呼び出し
+        // 実際のAPIの呼び出し
         callAPI(reqMethod);
       }).catch(function() {
         alert("Failed to refresh token");
