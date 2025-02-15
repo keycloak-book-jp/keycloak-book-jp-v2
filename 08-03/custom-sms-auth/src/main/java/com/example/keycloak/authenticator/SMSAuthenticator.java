@@ -67,13 +67,15 @@ public class SMSAuthenticator implements Authenticator {
 				challenge = context.form().createForm("sms-validation.ftl");
 			} else {
 				// 認証コードの送信に失敗した場合、エラー画面を返却する
-				challenge = context.form().addError(new FormMessage("sendSMSCodeErrorMessage"))
-						.createForm("sms-validation-error.ftl");
+				challenge = context.form()
+					.addError(new FormMessage("sendSMSCodeErrorMessage"))
+					.createForm("sms-validation-error.ftl");
 			}
 		} else {
 			// 電話番号が設定されていない場合、エラー画面を返却する
-			challenge = context.form().addError(new FormMessage("missingTelNumberMessage"))
-					.createForm("sms-validation-error.ftl");
+			challenge = context.form()
+				.addError(new FormMessage("missingTelNumberMessage"))
+				.createForm("sms-validation-error.ftl");
 		}
 		context.challenge(challenge);
 		logger.debug("authenticate end");
@@ -88,7 +90,8 @@ public class SMSAuthenticator implements Authenticator {
 	public void action(AuthenticationFlowContext context) {
 		logger.debug("action start");
 
-		MultivaluedMap<String, String> inputData = context.getHttpRequest().getDecodedFormParameters();
+		MultivaluedMap<String, String> inputData = context.getHttpRequest()
+			.getDecodedFormParameters();
 		String enteredCode = inputData.getFirst("smsCode");
 
 		UserModel user = context.getUser();
@@ -106,8 +109,10 @@ public class SMSAuthenticator implements Authenticator {
 		} else {
 			// 認証コードの確認に失敗した場合は、エラー画面を返却する
 			Response challenge = context.form()
-					.setAttribute("username", context.getAuthenticationSession().getAuthenticatedUser().getUsername())
-					.addError(new FormMessage("invalidSMSCodeMessage")).createForm("sms-validation-error.ftl");
+				.setAttribute("username", context.getAuthenticationSession()
+				.getAuthenticatedUser().getUsername())
+				.addError(new FormMessage("invalidSMSCodeMessage"))
+				.createForm("sms-validation-error.ftl");
 			context.challenge(challenge);
 		}
 		logger.debug("action end");

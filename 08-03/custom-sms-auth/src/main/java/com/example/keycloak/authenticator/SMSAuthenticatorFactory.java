@@ -40,7 +40,8 @@ public class SMSAuthenticatorFactory implements AuthenticatorFactory {
 				.label("Service SID")
 				.type(ProviderConfigProperty.STRING_TYPE)
 				.defaultValue("")
-				.helpText("Set the Service SID to connect to Twilio. It usually starts with 'VA'.")
+				.helpText("Set the Service SID to connect to Twilio. "
+					+ "It usually starts with 'VA'.")
 				.add()
 
 				// API Key SID
@@ -49,7 +50,8 @@ public class SMSAuthenticatorFactory implements AuthenticatorFactory {
 				.label("API Key SID")
 				.type(ProviderConfigProperty.STRING_TYPE)
 				.defaultValue("")
-				.helpText("Set the API Key SID to connect to Twilio. It usually starts with 'SK'.")
+				.helpText("Set the API Key SID to connect to Twilio. "
+					+ "It usually starts with 'SK'.")
 				.add()
 
 				// Secret
